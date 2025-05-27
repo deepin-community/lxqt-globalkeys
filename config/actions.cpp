@@ -34,18 +34,18 @@ Actions::Actions(QObject *parent)
     , mServiceWatcher(new QDBusServiceWatcher(QLatin1String("org.lxqt.global_key_shortcuts"), QDBusConnection::sessionBus(), QDBusServiceWatcher::WatchForOwnerChange, this))
     , mMultipleActionsBehaviour(MULTIPLE_ACTIONS_BEHAVIOUR_FIRST)
 {
-    connect(mServiceWatcher, SIGNAL(serviceUnregistered(QString)), this, SLOT(on_daemonDisappeared(QString)));
-    connect(mServiceWatcher, SIGNAL(serviceRegistered(QString)), this, SLOT(on_daemonAppeared(QString)));
+    connect(mServiceWatcher, &QDBusServiceWatcher::serviceUnregistered, this, &Actions::on_daemonDisappeared);
+    connect(mServiceWatcher, &QDBusServiceWatcher::serviceRegistered,   this, &Actions::on_daemonAppeared);
     mDaemonProxy = new org::lxqt::global_key_shortcuts::daemon(QLatin1String("org.lxqt.global_key_shortcuts"), QStringLiteral("/daemon"), QDBusConnection::sessionBus(), this);
 
-    connect(mDaemonProxy, SIGNAL(actionAdded(qulonglong)), this, SLOT(on_actionAdded(qulonglong)));
-    connect(mDaemonProxy, SIGNAL(actionEnabled(qulonglong, bool)), this, SLOT(on_actionEnabled(qulonglong, bool)));
-    connect(mDaemonProxy, SIGNAL(clientActionSenderChanged(qulonglong, QString)), this, SLOT(on_clientActionSenderChanged(qulonglong, QString)));
-    connect(mDaemonProxy, SIGNAL(actionModified(qulonglong)), this, SLOT(on_actionModified(qulonglong)));
-    connect(mDaemonProxy, SIGNAL(actionRemoved(qulonglong)), this, SLOT(on_actionRemoved(qulonglong)));
-    connect(mDaemonProxy, SIGNAL(actionShortcutChanged(qulonglong)), this, SLOT(on_actionShortcutChanged(qulonglong)));
-    connect(mDaemonProxy, SIGNAL(actionsSwapped(qulonglong, qulonglong)), this, SLOT(on_actionsSwapped(qulonglong, qulonglong)));
-    connect(mDaemonProxy, SIGNAL(multipleActionsBehaviourChanged(uint)), this, SLOT(on_multipleActionsBehaviourChanged(uint)));
+    connect(mDaemonProxy, &org::lxqt::global_key_shortcuts::daemon::actionAdded,                     this, &Actions::on_actionAdded);
+    connect(mDaemonProxy, &org::lxqt::global_key_shortcuts::daemon::actionEnabled,                   this, &Actions::on_actionEnabled);
+    connect(mDaemonProxy, &org::lxqt::global_key_shortcuts::daemon::clientActionSenderChanged,       this, &Actions::on_clientActionSenderChanged);
+    connect(mDaemonProxy, &org::lxqt::global_key_shortcuts::daemon::actionModified,                  this, &Actions::on_actionModified);
+    connect(mDaemonProxy, &org::lxqt::global_key_shortcuts::daemon::actionRemoved,                   this, &Actions::on_actionRemoved);
+    connect(mDaemonProxy, &org::lxqt::global_key_shortcuts::daemon::actionShortcutChanged,           this, &Actions::on_actionShortcutChanged);
+    connect(mDaemonProxy, &org::lxqt::global_key_shortcuts::daemon::actionsSwapped,                  this, &Actions::on_actionsSwapped);
+    connect(mDaemonProxy, &org::lxqt::global_key_shortcuts::daemon::multipleActionsBehaviourChanged, this, &Actions::on_multipleActionsBehaviourChanged);
 
     QTimer::singleShot(0, this, SLOT(delayedInit()));
 }
@@ -159,14 +159,14 @@ QList<qulonglong> Actions::allActionIds() const
     return mGeneralActionInfo.keys();
 }
 
-QPair<bool, GeneralActionInfo> Actions::actionById(qulonglong id) const
+std::pair<bool, GeneralActionInfo> Actions::actionById(qulonglong id) const
 {
     GeneralActionInfos::const_iterator I = mGeneralActionInfo.constFind(id);
     if (I == mGeneralActionInfo.constEnd())
     {
-        return qMakePair(false, GeneralActionInfo());
+        return std::make_pair(false, GeneralActionInfo());
     }
-    return qMakePair(true, I.value());
+    return std::make_pair(true, I.value());
 }
 
 QList<qulonglong> Actions::allClientActionIds() const
@@ -174,14 +174,14 @@ QList<qulonglong> Actions::allClientActionIds() const
     return mClientActionInfo.keys();
 }
 
-QPair<bool, ClientActionInfo> Actions::clientActionInfoById(qulonglong id) const
+std::pair<bool, ClientActionInfo> Actions::clientActionInfoById(qulonglong id) const
 {
     ClientActionInfos::const_iterator I = mClientActionInfo.constFind(id);
     if (I == mClientActionInfo.constEnd())
     {
-        return qMakePair(false, ClientActionInfo());
+        return std::make_pair(false, ClientActionInfo());
     }
-    return qMakePair(true, I.value());
+    return std::make_pair(true, I.value());
 }
 
 QList<qulonglong> Actions::allMethodActionIds() const
@@ -189,14 +189,14 @@ QList<qulonglong> Actions::allMethodActionIds() const
     return mMethodActionInfo.keys();
 }
 
-QPair<bool, MethodActionInfo> Actions::methodActionInfoById(qulonglong id) const
+std::pair<bool, MethodActionInfo> Actions::methodActionInfoById(qulonglong id) const
 {
     MethodActionInfos::const_iterator I = mMethodActionInfo.constFind(id);
     if (I == mMethodActionInfo.constEnd())
     {
-        return qMakePair(false, MethodActionInfo());
+        return std::make_pair(false, MethodActionInfo());
     }
-    return qMakePair(true, I.value());
+    return std::make_pair(true, I.value());
 }
 
 QList<qulonglong> Actions::allCommandActionIds() const
@@ -204,14 +204,14 @@ QList<qulonglong> Actions::allCommandActionIds() const
     return mCommandActionInfo.keys();
 }
 
-QPair<bool, CommandActionInfo> Actions::commandActionInfoById(qulonglong id) const
+std::pair<bool, CommandActionInfo> Actions::commandActionInfoById(qulonglong id) const
 {
     CommandActionInfos::const_iterator I = mCommandActionInfo.constFind(id);
     if (I == mCommandActionInfo.constEnd())
     {
-        return qMakePair(false, CommandActionInfo());
+        return std::make_pair(false, CommandActionInfo());
     }
-    return qMakePair(true, I.value());
+    return std::make_pair(true, I.value());
 }
 
 MultipleActionsBehaviour Actions::multipleActionsBehaviour() const
@@ -486,28 +486,28 @@ uint Actions::getMultipleActionsBehaviour()
     return reply.argumentAt<0>();
 }
 
-QPair<QString, qulonglong> Actions::addMethodAction(const QString &shortcut, const QString &service, const QDBusObjectPath &path, const QString &interface, const QString &method, const QString &description)
+std::pair<QString, qulonglong> Actions::addMethodAction(const QString &shortcut, const QString &service, const QDBusObjectPath &path, const QString &interface, const QString &method, const QString &description)
 {
     QDBusPendingReply<QString, qulonglong> reply = mDaemonProxy->addMethodAction(shortcut, service, path, interface, method, description);
     reply.waitForFinished();
     if (reply.isError())
     {
-        return qMakePair<QString, qulonglong>(QString(), 0ull);
+        return std::make_pair(QString(), 0ull);
     }
 
-    return qMakePair<QString, qulonglong>(reply.argumentAt<0>(), reply.argumentAt<1>());
+    return std::make_pair(reply.argumentAt<0>(), reply.argumentAt<1>());
 }
 
-QPair<QString, qulonglong> Actions::addCommandAction(const QString &shortcut, const QString &command, const QStringList &arguments, const QString &description)
+std::pair<QString, qulonglong> Actions::addCommandAction(const QString &shortcut, const QString &command, const QStringList &arguments, const QString &description)
 {
     QDBusPendingReply<QString, qulonglong> reply = mDaemonProxy->addCommandAction(shortcut, command, arguments, description);
     reply.waitForFinished();
     if (reply.isError())
     {
-        return qMakePair<QString, qulonglong>(QString(), 0ull);
+        return std::make_pair(QString(), 0ull);
     }
 
-    return qMakePair<QString, qulonglong>(reply.argumentAt<0>(), reply.argumentAt<1>());
+    return std::make_pair(reply.argumentAt<0>(), reply.argumentAt<1>());
 }
 
 bool Actions::modifyActionDescription(const qulonglong &id, const QString &description)
@@ -635,7 +635,7 @@ void Actions::grabShortcut(uint timeout)
 {
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(mDaemonProxy->grabShortcut(timeout), this);
 
-    connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher *)), this, SLOT(grabShortcutFinished(QDBusPendingCallWatcher *)));
+    connect(watcher, &QDBusPendingCallWatcher::finished, this, &Actions::grabShortcutFinished);
 }
 
 void Actions::cancelShortcutGrab()

@@ -1,3 +1,139 @@
+lxqt-globalkeys (2.1.0-2) unstable; urgency=medium
+
+  * debian/control: make lxqt-globalkeys-l10n depends on
+    qt6-translations-l10n instead of qt6-tools-dev. (Closes: #1104242).
+    Thanks Bryan Gardiner for the report.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Sun, 27 Apr 2025 18:25:09 +0200
+
+lxqt-globalkeys (2.1.0-1) unstable; urgency=medium
+
+  * New upstream version 2.1.0.
+  * debian/control: build-deps on liblxqt-dev (>= 2.1.0~).
+  * Run wrap-and-sort.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Wed, 04 Dec 2024 18:20:25 +0100
+
+lxqt-globalkeys (2.0.0-1) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Wed, 27 Nov 2024 18:54:00 +0100
+
+lxqt-globalkeys (2.0.0-1~exp3) experimental; urgency=medium
+
+  * debian/control: build-deps on qt6-tools-dev (>=6.7.2).
+  * debian/changelog: fix typo.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Mon, 07 Oct 2024 11:48:26 +0200
+
+lxqt-globalkeys (2.0.0-1~exp2) experimental; urgency=medium
+
+  * debian/control: Added conflicts and replaces that exist in previous
+    stable release. (Closes:#1082346)
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Sat, 21 Sep 2024 12:56:59 +0200
+
+lxqt-globalkeys (2.0.0-1~exp1) experimental; urgency=medium
+
+  [ Severus Septimius ]
+  * New upstream release 2.0.0
+  * debian/control: Bump liblxqt1-dev to liblxqt2-dev.
+  * debian/control: Bump build-dep on kf5windowsystem-dev to
+    libkf6windowsystem-dev.
+  * debian/control: drop dependency on libqt5x11extras5-dev.
+  * debian/control: bump libqt5x11extras5-dev to qt6-tools-dev.
+  * debian/control: bump soversion in package name.
+  * debian/control: Rename liblxqt-globalkeys-dev1 to liblxqt-globalkeys-
+    dev.
+  * debian/control: Rename liblxqt-globalkeys-ui1-dev to liblxqt-
+    globalkeys-ui-dev.
+  * debian/control: bump dependency on liblxqt-globalkeys1 to liblxqt-
+    globalkeys2.
+  * debian/control: bump dependency on liblxqt-globalkeys-ui1 to liblxqt-
+    globalkeys-ui2.
+  * Bump soversion in .install files.
+  * Bump soversion in .shlibs files.
+  * debian/control: add build-dep on libglib2.0-dev.
+  * debian/control: bump qttools5-dev -> qt6-tools-dev.
+
+  [ Andrew Lee (李健秋) ]
+  * debian/control: build-deps on liblxqt-dev (>= 2.0.0~).
+  * debian/salsa-ci.yml: disable reprotest as not supported experimental.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Tue, 17 Sep 2024 13:17:16 +0200
+
+lxqt-globalkeys (1.4.0-2) unstable; urgency=medium
+
+  [ Macy Lin ]
+  * debian/control: build-deps on qttools5-dev. (Closes:#1078294)
+  * debian/control: bump to Standards-version to 4.7.0, no changes needed.
+  * debian/copyright: added myself.
+
+  [ Andrew Lee (李健秋) ]
+  * Clean up of group membership after 2nd calls.
+  * debian/copyright: update.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Tue, 10 Sep 2024 21:43:35 +0200
+
+lxqt-globalkeys (1.4.0-1) unstable; urgency=medium
+
+  * New upstream version 1.4.0
+  * debian/control: build-deps on liblxqt1-dev (>= 1.4.0~).
+  * debian/control: drop replaces and breaks that not exist in previous
+    stable release.
+  * debian/rules: suppress blhc error by added ignore-line-regexp.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Sun, 10 Dec 2023 07:56:07 +0100
+
+lxqt-globalkeys (1.3.0-1) unstable; urgency=medium
+
+  * New upstream version 1.3.0
+  * debian/control: update team address.
+  * debian/control: bump to Standards-version to 4.6.2, no changes needed.
+  * debian/control: build-deps on liblxqt1-dev (>= 1.3.0~).
+  * debian/control: clean up build-deps.
+  * debian/copyright: update.
+  * debian/upstream/metadata: drop obsolete field Name.
+  * debian/upstream/metadata: update url for git repo.
+  * debian/upstream/metadata: add Repository-Browse field.
+  * debian/rules: Drop --fail-missing argument to dh_missing which is now
+    default in debhelper 13.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Sat, 01 Jul 2023 17:27:42 +0200
+
+lxqt-globalkeys (1.2.0-1) unstable; urgency=medium
+
+  * New upstream releases.
+  * Use shlibs file instead of symbols files.
+  * Remove symbol file in favor of shlib file.
+  * Update d/control indent.
+  * Update d/copyright format and indent.
+  * Update d/watch for GitHub.
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Wed, 14 Dec 2022 23:48:20 +0800
+
+lxqt-globalkeys (1.1.0-2) unstable; urgency=medium
+
+  * Merge to unstable.
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sat, 19 Nov 2022 16:02:44 +0800
+
+lxqt-globalkeys (1.1.0-1) experimental; urgency=medium
+
+  * New upstream release.
+  * Cleaned up gbp.conf trailing whitespace.
+  * Upstreamed compatible changes from Ubuntu, modifying the following files:
+    - control
+    - copyright
+    - *.install
+    - *.symbols
+    - lxqt-globalkeys.lintian-overrides
+    - rules
+    - upstream/*
+
+ -- Aaron Rainbolt <arraybolt3@gmail.com>  Wed, 13 Jul 2022 13:02:01 -0500
+
 lxqt-globalkeys (0.16.0-1) unstable; urgency=medium
 
   * New upstream release. (Closes: #964648)

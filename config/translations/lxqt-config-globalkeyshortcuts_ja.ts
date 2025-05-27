@@ -115,75 +115,97 @@
         <translation>グローバル・アクションの管理</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="55"/>
+        <location filename="../main_window.ui" line="27"/>
+        <source>Search</source>
+        <translation>検索</translation>
+    </message>
+    <message>
+        <location filename="../main_window.ui" line="72"/>
         <source>Add ...</source>
         <translation>追加 ...</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="65"/>
+        <location filename="../main_window.ui" line="82"/>
         <source>Remove</source>
         <translation>削除する</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="75"/>
+        <location filename="../main_window.ui" line="92"/>
         <source>Modify ...</source>
         <translation>修正 ...</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="92"/>
+        <location filename="../main_window.ui" line="109"/>
         <source>Swap</source>
         <translation>入れ替える</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="118"/>
+        <location filename="../main_window.ui" line="135"/>
         <source>Multiple actions behaviour:</source>
-        <translation>複数定義されたアクションの動作:</translation>
+        <translation>重複するアクションの動作:</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="126"/>
+        <location filename="../main_window.ui" line="143"/>
         <source>First</source>
         <comment>globalkeys/config/multipleActions</comment>
         <translation>1 番目</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="131"/>
+        <location filename="../main_window.ui" line="148"/>
         <source>Last</source>
         <comment>globalkeys/config/multipleActions</comment>
         <translation>最後</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="136"/>
+        <location filename="../main_window.ui" line="153"/>
         <source>None</source>
         <comment>globalkeys/config/multipleActions</comment>
         <translation>何もしない</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="141"/>
+        <location filename="../main_window.ui" line="158"/>
         <source>All</source>
         <comment>globalkeys/config/multipleActions</comment>
         <translation>すべて</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="166"/>
+        <location filename="../main_window.ui" line="183"/>
         <source>Default</source>
         <translation>既定値</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="186"/>
+        <location filename="../main_window.ui" line="207"/>
         <source>Close</source>
         <translation>閉じる</translation>
     </message>
     <message>
-        <location filename="../main_window.cpp" line="187"/>
+        <location filename="../main_window.cpp" line="191"/>
         <source>Restore Default</source>
         <translation>既定値に戻す</translation>
     </message>
     <message>
-        <location filename="../main_window.cpp" line="188"/>
+        <location filename="../main_window.cpp" line="192"/>
         <source>Your defined shortcuts will be removed.
 Do you want to proceed?</source>
         <translation>定義したショートカットを削除します。
 続けますか？</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../main.cpp" line="51"/>
+        <source>Platform Unsupported</source>
+        <translation>プラットフォームがサポートされていません</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="52"/>
+        <source>LXQt globalkeys are currently unsupported under Wayland.
+
+Global shortcuts can be configured in the settings of the compositor instead.</source>
+        <translation>現在、Wayland では LXQt グローバルキーはサポートされていません。
+
+代わりに、コンポジターの設定でグローバルショートカットを設定できます。</translation>
     </message>
 </context>
 </TS>

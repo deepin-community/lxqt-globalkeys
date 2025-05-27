@@ -115,75 +115,97 @@
         <translation>Διαχειριστής καθολικών ενεργειών</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="55"/>
+        <location filename="../main_window.ui" line="27"/>
+        <source>Search</source>
+        <translation>Αναζήτηση</translation>
+    </message>
+    <message>
+        <location filename="../main_window.ui" line="72"/>
         <source>Add ...</source>
         <translation>Προσθήκη ...</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="65"/>
+        <location filename="../main_window.ui" line="82"/>
         <source>Remove</source>
         <translation>Αφαίρεση</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="75"/>
+        <location filename="../main_window.ui" line="92"/>
         <source>Modify ...</source>
         <translation>Τροποποίηση ...</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="92"/>
+        <location filename="../main_window.ui" line="109"/>
         <source>Swap</source>
         <translation>Εναλλαγή</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="118"/>
+        <location filename="../main_window.ui" line="135"/>
         <source>Multiple actions behaviour:</source>
         <translation>Συμπεριφορά πολλαπλών ενεργειών:</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="126"/>
+        <location filename="../main_window.ui" line="143"/>
         <source>First</source>
         <comment>globalkeys/config/multipleActions</comment>
         <translation>Πρώτη</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="131"/>
+        <location filename="../main_window.ui" line="148"/>
         <source>Last</source>
         <comment>globalkeys/config/multipleActions</comment>
         <translation>Τελευταία</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="136"/>
+        <location filename="../main_window.ui" line="153"/>
         <source>None</source>
         <comment>globalkeys/config/multipleActions</comment>
         <translation>Ουδεμία</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="141"/>
+        <location filename="../main_window.ui" line="158"/>
         <source>All</source>
         <comment>globalkeys/config/multipleActions</comment>
         <translation>Όλες</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="166"/>
+        <location filename="../main_window.ui" line="183"/>
         <source>Default</source>
         <translation>Εξ ορισμού</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="186"/>
+        <location filename="../main_window.ui" line="207"/>
         <source>Close</source>
         <translation>Κλείσιμο</translation>
     </message>
     <message>
-        <location filename="../main_window.cpp" line="187"/>
+        <location filename="../main_window.cpp" line="191"/>
         <source>Restore Default</source>
         <translation>Επαναφορά προκαθορισμένων</translation>
     </message>
     <message>
-        <location filename="../main_window.cpp" line="188"/>
+        <location filename="../main_window.cpp" line="192"/>
         <source>Your defined shortcuts will be removed.
 Do you want to proceed?</source>
         <translation>Οι συντομεύσεις που έχετε καθορίσει θα διαγραφούν.
 Θέλετε να συνεχίσετε;</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../main.cpp" line="51"/>
+        <source>Platform Unsupported</source>
+        <translation>Μη υποστηριζόμενο πλατύβαθρο</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="52"/>
+        <source>LXQt globalkeys are currently unsupported under Wayland.
+
+Global shortcuts can be configured in the settings of the compositor instead.</source>
+        <translation>Οι καθολικές συντομεύσεις LXQt δεν υποστηρίζονται στο Wayland.
+
+Αντί αυτού, μπορούν να διαμορφωθούν από τις ρυθμίσεις του.</translation>
     </message>
 </context>
 </TS>

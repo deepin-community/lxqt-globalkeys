@@ -1,91 +1,77 @@
 Source: lxqt-globalkeys
-Maintainer: LXQt Packaging Team <pkg-lxqt-devel@lists.alioth.debian.org>
-Uploaders: Alf Gaida <agaida@siduction.org>,
-           ChangZhuo Chen (陳昌倬) <czchen@debian.org>,
+Maintainer: LXQt Packaging Team <team+lxqt@tracker.debian.org>
+Uploaders: ChangZhuo Chen (陳昌倬) <czchen@debian.org>,
            Andrew Lee (李健秋) <ajqlee@debian.org>
 Section: x11
 Priority: optional
-Build-Depends: debhelper-compat (= 12),
-               libkf5windowsystem-dev,
-               liblxqt0-dev (>= 0.16.0~),
-               libqt5svg5-dev,
-               libqt5x11extras5-dev,
-               libx11-dev,
-               xserver-xorg-input-libinput-dev,
-Standards-Version: 4.4.1
+Build-Depends: debhelper-compat (= 13),
+               libglib2.0-dev,
+               libkf6windowsystem-dev,
+               liblxqt-dev (>= 2.1.0~),
+               qt6-tools-dev (>=6.7.2)
+Standards-Version: 4.7.0
 Vcs-Browser: https://salsa.debian.org/lxqt-team/lxqt-globalkeys
 Vcs-Git: https://salsa.debian.org/lxqt-team/lxqt-globalkeys.git
 Homepage: https://github.com/lxqt/lxqt-globalkeys
+Rules-Requires-Root: no
 
 Package: lxqt-globalkeys
 Architecture: any
-Depends: ${misc:Depends},
-         ${shlibs:Depends}
-Recommends: lxqt-globalkeys-l10n,
-            lxqt-qtplugin,
-            lxqt-session
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Recommends: lxqt-globalkeys-l10n, lxqt-qtplugin, lxqt-session
 Suggests: lxqt | lxqt-core
-Breaks: lxqt-common (<< 0.12.0)
-Replaces: lxqt-common (<< 0.12.0)
 Description: daemon used to register global keyboard shortcuts (appl.)
- LXQt globalkey is providing tools to set global keyboard shortcuts in LXQt
- sessions, that is shortcuts which apply to the LXQt session as a whole and are
- not limited to distinct applications.
+ Daemon used to register global keyboard shortcuts.
  .
  This package contain the program files for LXQt globalskeys.
 
-Package: liblxqt-globalkeys0
+Package: liblxqt-globalkeys2
 Architecture: any
 Multi-Arch: same
 Section: libs
-Pre-Depends: ${misc:Pre-Depends},
-Depends: ${misc:Depends},
-         ${shlibs:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: daemon used to register global keyboard shortcuts (shared libs)
- LXQt globalkey is providing tools to set global keyboard shortcuts in LXQt
- sessions, that is shortcuts which apply to the LXQt session as a whole and are
- not limited to distinct applications.
+ Daemon used to register global keyboard shortcuts.
  .
  This package contain the shared libs for LXQt globalkeys.
 
-Package: liblxqt-globalkeys0-dev
+Package: liblxqt-globalkeys-dev
 Architecture: any
 Section: libdevel
-Depends: ${misc:Depends},
-         ${shlibs:Depends},
-         liblxqt-globalkeys0 (= ${binary:Version})
+Depends: liblxqt-globalkeys2 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Conflicts: liblxqt-globalkeys0-dev, liblxqt-globalkeys1-dev
+Replaces: liblxqt-globalkeys0-dev, liblxqt-globalkeys1-dev
 Description: daemon used to register global keyboard shortcuts (dev files)
- LXQt globalkey is providing tools to set global keyboard shortcuts in LXQt
- sessions, that is shortcuts which apply to the LXQt session as a whole and are
- not limited to distinct applications.
+ Daemon used to register global keyboard shortcuts.
  .
  This package contain the development files.
 
-Package: liblxqt-globalkeys-ui0
+Package: liblxqt-globalkeys-ui2
 Architecture: any
 Multi-Arch: same
 Section: libs
-Pre-Depends: ${misc:Pre-Depends},
-Depends: ${misc:Depends},
-         ${shlibs:Depends},
-         liblxqt-globalkeys0 (= ${binary:Version})
+Pre-Depends: ${misc:Pre-Depends}
+Depends: liblxqt-globalkeys2 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
 Description: daemon used to register global keyboard shortcuts (ui files)
- LXQt globalkey is providing tools to set global keyboard shortcuts in LXQt
- sessions, that is shortcuts which apply to the LXQt session as a whole and are
- not limited to distinct applications.
+ Daemon used to register global keyboard shortcuts.
  .
  This package contain the ui for LXQt globalkeys.
 
-Package: liblxqt-globalkeys-ui0-dev
+Package: liblxqt-globalkeys-ui-dev
 Architecture: any
 Section: libdevel
-Depends: ${misc:Depends},
-         ${shlibs:Depends},
-         liblxqt-globalkeys-ui0 (= ${binary:Version})
+Depends: liblxqt-globalkeys-ui2 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Conflicts: liblxqt-globalkeys-ui0-dev, liblxqt-globalkeys-ui1-dev
+Replaces: liblxqt-globalkeys-ui0-dev, liblxqt-globalkeys-ui1-dev
 Description: daemon used to register global keyboard shortcuts (ui dev files)
- LXQt globalkey is providing tools to set global keyboard shortcuts in LXQt
- sessions, that is shortcuts which apply to the LXQt session as a whole and are
- not limited to distinct applications.
+ Daemon used to register global keyboard shortcuts.
  .
  This package contain the ui development files.
 
@@ -93,13 +79,8 @@ Package: lxqt-globalkeys-l10n
 Architecture: all
 Multi-Arch: foreign
 Section: localization
-Depends: ${misc:Depends},
-         qttranslations5-l10n
-Breaks: lxqt-globalkeys (<< 0.11.0)
-Replaces: lxqt-globalkeys (<< 0.11.0)
+Depends: qt6-translations-l10n, ${misc:Depends}
 Description: Language package for lxqt-globalkeys
- LXQt globalkey is providing tools to set global keyboard shortcuts in LXQt
- sessions, that is shortcuts which apply to the LXQt session as a whole and are
- not limited to distinct applications.
+ The l10n files for lxqt-globalkeys.
  .
  This package contains the l10n files needed by lxqt-globalkeys.

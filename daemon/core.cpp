@@ -35,6 +35,8 @@
 #include <QDBusServiceWatcher>
 #include <QFile>
 
+#include <QString>
+
 #include <cstddef>
 #include <cstdlib>
 #include <unistd.h>
@@ -390,10 +392,6 @@ Core::Core(bool useSyslog, bool minLogLevelSet, int minLogLevel, const QStringLi
     , mNativeAdaptor(nullptr)
     , mLastId(0ull)
     , mGrabbingShortcut(false)
-    , AltMask(Mod1Mask)
-    , MetaMask(Mod4Mask)
-    , Level3Mask(Mod5Mask)
-    , Level5Mask(Mod3Mask)
     , mMultipleActionsBehaviour(multipleActionsBehaviour)
     , mAllowGrabLocks(false)
     , mAllowGrabBaseSpecial(false)
@@ -402,7 +400,6 @@ Core::Core(bool useSyslog, bool minLogLevelSet, int minLogLevel, const QStringLi
     , mAllowGrabMiscKeypad(true)
     , mAllowGrabPrintable(false)
     , mSaveAllowed(false)
-
     , mShortcutGrabTimeout(new QTimer(this))
     , mShortcutGrabRequested(false)
 {
@@ -728,43 +725,43 @@ Core::Core(bool useSyslog, bool minLogLevelSet, int minLogLevel, const QStringLi
 
         connect(mServiceWatcher, &QDBusServiceWatcher::serviceUnregistered, this, &Core::serviceDisappeared);
 
-        connect(mDaemonAdaptor, SIGNAL(onAddMethodAction(QPair<QString, qulonglong>&, QString, QString, QDBusObjectPath, QString, QString, QString)), this, SLOT(addMethodAction(QPair<QString, qulonglong>&, QString, QString, QDBusObjectPath, QString, QString, QString)));
-        connect(mDaemonAdaptor, SIGNAL(onAddCommandAction(QPair<QString, qulonglong>&, QString, QString, QStringList, QString)), this, SLOT(addCommandAction(QPair<QString, qulonglong>&, QString, QString, QStringList, QString)));
-        connect(mDaemonAdaptor, SIGNAL(onModifyActionDescription(bool &, qulonglong, QString)), this, SLOT(modifyActionDescription(bool &, qulonglong, QString)));
-        connect(mDaemonAdaptor, SIGNAL(onModifyMethodAction(bool &, qulonglong, QString, QDBusObjectPath, QString, QString, QString)), this, SLOT(modifyMethodAction(bool &, qulonglong, QString, QDBusObjectPath, QString, QString, QString)));
-        connect(mDaemonAdaptor, SIGNAL(onModifyCommandAction(bool &, qulonglong, QString, QStringList, QString)), this, SLOT(modifyCommandAction(bool &, qulonglong, QString, QStringList, QString)));
-        connect(mDaemonAdaptor, SIGNAL(onEnableAction(bool &, qulonglong, bool)), this, SLOT(enableAction(bool &, qulonglong, bool)));
-        connect(mDaemonAdaptor, SIGNAL(onIsActionEnabled(bool &, qulonglong)), this, SLOT(isActionEnabled(bool &, qulonglong)));
-        connect(mDaemonAdaptor, SIGNAL(onGetClientActionSender(QString &, qulonglong)), this, SLOT(getClientActionSender(QString &, qulonglong)));
-        connect(mDaemonAdaptor, SIGNAL(onChangeShortcut(QString &, qulonglong, QString)), this, SLOT(changeShortcut(QString &, qulonglong, QString)));
-        connect(mDaemonAdaptor, SIGNAL(onSwapActions(bool &, qulonglong, qulonglong)), this, SLOT(swapActions(bool &, qulonglong, qulonglong)));
-        connect(mDaemonAdaptor, SIGNAL(onRemoveAction(bool &, qulonglong)), this, SLOT(removeAction(bool &, qulonglong)));
-        connect(mDaemonAdaptor, SIGNAL(onSetMultipleActionsBehaviour(MultipleActionsBehaviour)), this, SLOT(setMultipleActionsBehaviour(MultipleActionsBehaviour)));
-        connect(mDaemonAdaptor, SIGNAL(onGetMultipleActionsBehaviour(MultipleActionsBehaviour &)), this, SLOT(getMultipleActionsBehaviour(MultipleActionsBehaviour &)));
-        connect(mDaemonAdaptor, SIGNAL(onGetAllActionIds(QList<qulonglong>&)), this, SLOT(getAllActionIds(QList<qulonglong>&)));
-        connect(mDaemonAdaptor, SIGNAL(onGetActionById(QPair<bool, GeneralActionInfo>&, qulonglong)), this, SLOT(getActionById(QPair<bool, GeneralActionInfo>&, qulonglong)));
-        connect(mDaemonAdaptor, SIGNAL(onGetAllActions(QMap<qulonglong, GeneralActionInfo>&)), this, SLOT(getAllActions(QMap<qulonglong, GeneralActionInfo>&)));
-        connect(mDaemonAdaptor, SIGNAL(onGetClientActionInfoById(QPair<bool, ClientActionInfo>&, qulonglong)), this, SLOT(getClientActionInfoById(QPair<bool, ClientActionInfo>&, qulonglong)));
-        connect(mDaemonAdaptor, SIGNAL(onGetMethodActionInfoById(QPair<bool, MethodActionInfo>&, qulonglong)), this, SLOT(getMethodActionInfoById(QPair<bool, MethodActionInfo>&, qulonglong)));
-        connect(mDaemonAdaptor, SIGNAL(onGetCommandActionInfoById(QPair<bool, CommandActionInfo>&, qulonglong)), this, SLOT(getCommandActionInfoById(QPair<bool, CommandActionInfo>&, qulonglong)));
-        connect(mDaemonAdaptor, SIGNAL(onGrabShortcut(uint, QString &, bool &, bool &, bool &, QDBusMessage)), this, SLOT(grabShortcut(uint, QString &, bool &, bool &, bool &, QDBusMessage)));
-        connect(mDaemonAdaptor, SIGNAL(onCancelShortcutGrab()), this, SLOT(cancelShortcutGrab()));
-        connect(mDaemonAdaptor, SIGNAL(onQuit()), qApp, SLOT(quit()));
+        connect(mDaemonAdaptor, &DaemonAdaptor::onAddMethodAction,             this, &Core::addMethodAction);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onAddCommandAction,            this, &Core::addCommandAction);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onModifyActionDescription,     this, &Core::modifyActionDescription);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onModifyMethodAction,          this, &Core::modifyMethodAction);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onModifyCommandAction,         this, &Core::modifyCommandAction);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onEnableAction,                this, &Core::enableAction);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onIsActionEnabled,             this, &Core::isActionEnabled);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onGetClientActionSender,       this, &Core::getClientActionSender);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onChangeShortcut,              this, &Core::changeShortcut);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onSwapActions,                 this, &Core::swapActions);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onRemoveAction,                this, &Core::removeAction);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onSetMultipleActionsBehaviour, this, &Core::setMultipleActionsBehaviour);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onGetMultipleActionsBehaviour, this, &Core::getMultipleActionsBehaviour);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onGetAllActionIds,             this, &Core::getAllActionIds);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onGetActionById,               this, &Core::getActionById);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onGetAllActions,               this, &Core::getAllActions);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onGetClientActionInfoById,     this, &Core::getClientActionInfoById);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onGetMethodActionInfoById,     this, &Core::getMethodActionInfoById);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onGetCommandActionInfoById,    this, &Core::getCommandActionInfoById);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onGrabShortcut,                this, &Core::grabShortcut);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onCancelShortcutGrab,          this, &Core::cancelShortcutGrab);
+        connect(mDaemonAdaptor, &DaemonAdaptor::onQuit,                        qApp, &QCoreApplication::quit);
 
-        connect(mNativeAdaptor, SIGNAL(onAddClientAction(QPair<QString, qulonglong>&, QString, QDBusObjectPath, QString, QString)), this, SLOT(addClientAction(QPair<QString, qulonglong>&, QString, QDBusObjectPath, QString, QString)));
-        connect(mNativeAdaptor, SIGNAL(onModifyClientAction(qulonglong &, QDBusObjectPath, QString, QString)), this, SLOT(modifyClientAction(qulonglong &, QDBusObjectPath, QString, QString)));
-        connect(mNativeAdaptor, SIGNAL(onEnableClientAction(bool &, QDBusObjectPath, bool, QString)), this, SLOT(enableClientAction(bool &, QDBusObjectPath, bool, QString)));
-        connect(mNativeAdaptor, SIGNAL(onIsClientActionEnabled(bool &, QDBusObjectPath, QString)), this, SLOT(isClientActionEnabled(bool &, QDBusObjectPath, QString)));
-        connect(mNativeAdaptor, SIGNAL(onChangeClientActionShortcut(QPair<QString, qulonglong>&, QDBusObjectPath, QString, QString)), this, SLOT(changeClientActionShortcut(QPair<QString, qulonglong>&, QDBusObjectPath, QString, QString)));
-        connect(mNativeAdaptor, SIGNAL(onRemoveClientAction(bool &, QDBusObjectPath, QString)), this, SLOT(removeClientAction(bool &, QDBusObjectPath, QString)));
-        connect(mNativeAdaptor, SIGNAL(onDeactivateClientAction(bool &, QDBusObjectPath, QString)), this, SLOT(deactivateClientAction(bool &, QDBusObjectPath, QString)));
-        connect(mNativeAdaptor, SIGNAL(onGrabShortcut(uint, QString &, bool &, bool &, bool &, QDBusMessage)), this, SLOT(grabShortcut(uint, QString &, bool &, bool &, bool &, QDBusMessage)));
-        connect(mNativeAdaptor, SIGNAL(onCancelShortcutGrab()), this, SLOT(cancelShortcutGrab()));
+        connect(mNativeAdaptor, &NativeAdaptor::onAddClientAction,             this, &Core::addClientAction);
+        connect(mNativeAdaptor, &NativeAdaptor::onModifyClientAction,          this, &Core::modifyClientAction);
+        connect(mNativeAdaptor, &NativeAdaptor::onEnableClientAction,          this, &Core::enableClientAction);
+        connect(mNativeAdaptor, &NativeAdaptor::onIsClientActionEnabled,       this, &Core::isClientActionEnabled);
+        connect(mNativeAdaptor, &NativeAdaptor::onChangeClientActionShortcut,  this, &Core::changeClientActionShortcut);
+        connect(mNativeAdaptor, &NativeAdaptor::onRemoveClientAction,          this, &Core::removeClientAction);
+        connect(mNativeAdaptor, &NativeAdaptor::onDeactivateClientAction,      this, &Core::deactivateClientAction);
+        connect(mNativeAdaptor, &NativeAdaptor::onGrabShortcut,                this, &Core::grabShortcut);
+        connect(mNativeAdaptor, &NativeAdaptor::onCancelShortcutGrab,          this, &Core::cancelShortcutGrab);
 
         mShortcutGrabTimeout->setSingleShot(true);
 
-        connect(this, SIGNAL(onShortcutGrabbed()), this, SLOT(shortcutGrabbed()), Qt::QueuedConnection);
-        connect(mShortcutGrabTimeout, SIGNAL(timeout()), this, SLOT(shortcutGrabTimedout()));
+        connect(this,                 &Core::onShortcutGrabbed, this, &Core::shortcutGrabbed, Qt::QueuedConnection);
+        connect(mShortcutGrabTimeout, &QTimer::timeout,         this, &Core::shortcutGrabTimedout);
 
 
         log(LOG_NOTICE, "Started");
@@ -985,251 +982,60 @@ void Core::wakeX11Thread()
     }
 }
 
-bool Core::isEscape(KeySym keySym, unsigned int modifiers)
-{
-    return ((keySym == XK_Escape) && (!modifiers));
-}
-
-bool Core::isModifier(KeySym keySym)
-{
-    switch (keySym)
-    {
-    case XK_Shift_L:
-    case XK_Shift_R:
-    case XK_Control_L:
-    case XK_Control_R:
-    case XK_Meta_L:
-    case XK_Meta_R:
-    case XK_Alt_L:
-    case XK_Alt_R:
-    case XK_Super_L:
-    case XK_Super_R:
-    case XK_Hyper_L:
-    case XK_Hyper_R:
-    case XK_ISO_Level3_Shift:
-    case XK_ISO_Level5_Shift:
-    case XK_ISO_Group_Shift:
-        return true;
-
-    }
-    return false;
-}
-
-bool Core::isAllowed(KeySym keySym, unsigned int modifiers)
-{
-    switch (keySym)
-    {
-    case XK_Scroll_Lock:
-    case XK_Num_Lock:
-    case XK_Caps_Lock:
-    case XK_ISO_Lock:
-    case XK_ISO_Level3_Lock:
-    case XK_ISO_Level5_Lock:
-    case XK_ISO_Group_Lock:
-    case XK_ISO_Next_Group_Lock:
-    case XK_ISO_Prev_Group_Lock:
-    case XK_ISO_First_Group_Lock:
-    case XK_ISO_Last_Group_Lock:
-        if (!modifiers)
-        {
-            return mAllowGrabLocks;
-        }
-        break;
-
-    case XK_Home:
-    case XK_Left:
-    case XK_Up:
-    case XK_Right:
-    case XK_Down:
-    case XK_Page_Up:
-    case XK_Page_Down:
-    case XK_End:
-    case XK_Delete:
-    case XK_Insert:
-    case XK_BackSpace:
-    case XK_Tab:
-    case XK_Return:
-    case XK_space:
-        if (!modifiers)
-        {
-            return mAllowGrabBaseSpecial;
-        }
-        break;
-
-    case XK_Pause:
-    case XK_Print:
-    case XK_Linefeed:
-    case XK_Clear:
-    case XK_Multi_key:
-    case XK_Codeinput:
-    case XK_SingleCandidate:
-    case XK_MultipleCandidate:
-    case XK_PreviousCandidate:
-    case XK_Begin:
-    case XK_Select:
-    case XK_Execute:
-    case XK_Undo:
-    case XK_Redo:
-    case XK_Menu:
-    case XK_Find:
-    case XK_Cancel:
-    case XK_Help:
-    case XK_Sys_Req:
-    case XK_Break:
-        if (!modifiers)
-        {
-            return mAllowGrabMiscSpecial;
-        }
-        break;
-
-    case XK_KP_Enter:
-    case XK_KP_Home:
-    case XK_KP_Left:
-    case XK_KP_Up:
-    case XK_KP_Right:
-    case XK_KP_Down:
-    case XK_KP_Page_Up:
-    case XK_KP_Page_Down:
-    case XK_KP_End:
-    case XK_KP_Begin:
-    case XK_KP_Insert:
-    case XK_KP_Delete:
-    case XK_KP_Multiply:
-    case XK_KP_Add:
-    case XK_KP_Subtract:
-    case XK_KP_Decimal:
-    case XK_KP_Divide:
-    case XK_KP_0:
-    case XK_KP_1:
-    case XK_KP_2:
-    case XK_KP_3:
-    case XK_KP_4:
-    case XK_KP_5:
-    case XK_KP_6:
-    case XK_KP_7:
-    case XK_KP_8:
-    case XK_KP_9:
-        if (!modifiers)
-        {
-            return mAllowGrabBaseKeypad;
-        }
-        break;
-
-    case XK_KP_Space:
-    case XK_KP_Tab:
-    case XK_KP_F1:
-    case XK_KP_F2:
-    case XK_KP_F3:
-    case XK_KP_F4:
-    case XK_KP_Equal:
-    case XK_KP_Separator:
-        if (!modifiers)
-        {
-            return mAllowGrabMiscKeypad;
-        }
-        break;
-
-    case XK_grave:
-    case XK_1:
-    case XK_2:
-    case XK_3:
-    case XK_4:
-    case XK_5:
-    case XK_6:
-    case XK_7:
-    case XK_8:
-    case XK_9:
-    case XK_0:
-    case XK_minus:
-    case XK_equal:
-    case XK_Q:
-    case XK_W:
-    case XK_E:
-    case XK_R:
-    case XK_T:
-    case XK_Y:
-    case XK_U:
-    case XK_I:
-    case XK_O:
-    case XK_P:
-    case XK_bracketleft:
-    case XK_bracketright:
-    case XK_backslash:
-    case XK_A:
-    case XK_S:
-    case XK_D:
-    case XK_F:
-    case XK_G:
-    case XK_H:
-    case XK_J:
-    case XK_K:
-    case XK_L:
-    case XK_semicolon:
-    case XK_apostrophe:
-    case XK_Z:
-    case XK_X:
-    case XK_C:
-    case XK_V:
-    case XK_B:
-    case XK_N:
-    case XK_M:
-    case XK_comma:
-    case XK_period:
-    case XK_slash:
-        if (!(modifiers & ~(ShiftMask | Level3Mask | Level5Mask)))
-        {
-            return mAllowGrabPrintable;
-        }
-        break;
-
-    }
-    return true;
-}
-
 void Core::run()
 {
     mX11EventLoopActive = true;
-
     XInitThreads();
 
     int (*oldx11ErrorHandler)(Display * display, XErrorEvent * errorEvent) = XSetErrorHandler(::x11ErrorHandler);
 
     mDisplay = XOpenDisplay(nullptr);
-    XSynchronize(mDisplay, True);
-
+    // WARNING: After the following libx11 commit, making Xlib behave synchronously may cause the app
+    // to exit with code 1 at XPeekEvent():
+    // https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/93a050c3ad2d2264d3880db3791387b1a9bf2e9e
+    // The commit assumes that the event queue should be empty if another thread is blocking.
+    // This assumption is made for preventing a possible hang in X11, at the cost of making
+    // an app exit with code 1 when the queue isn't empty. Apparently, a synchronized behavior
+    // can create non-empty queues sometimes.
+    //XSynchronize(mDisplay, True);
     lockX11Error();
 
     Window rootWindow = DefaultRootWindow(mDisplay);
-
     XSelectInput(mDisplay, rootWindow, KeyPressMask | KeyReleaseMask);
-
     mInterClientCommunicationWindow = XCreateSimpleWindow(mDisplay, rootWindow, 0, 0, 1, 1, 0, 0, 0);
-
     XSelectInput(mDisplay, mInterClientCommunicationWindow, StructureNotifyMask);
-
     if (checkX11Error())
     {
         return;
     }
 
-    QSet<unsigned int> allModifiers;
-    unsigned int allShifts = ShiftMask | ControlMask | AltMask | MetaMask | Level3Mask | Level5Mask;
-    unsigned int ignoreMask = 0xff ^ allShifts;
-    for (unsigned int i = 0; i < 0x100; ++i)
-    {
-        unsigned int ignoreLocks = i & ignoreMask;
-        allModifiers.insert(ignoreLocks);
-    }
+    runEventLoop(rootWindow);
 
-    const QString metaLeft = QString::fromUtf8(XKeysymToString(XK_Super_L));
-    const QString metaRight = QString::fromUtf8(XKeysymToString(XK_Super_R));
+    lockX11Error();
+    XUngrabKey(mDisplay, AnyKey, AnyModifier, rootWindow);
+    XSetErrorHandler(oldx11ErrorHandler);
+    XCloseDisplay(mDisplay);
+    checkX11Error(0);
+}
 
+void Core::runEventLoop(Window rootWindow)
+{
     char signal = 0;
     if (write(mX11ResponsePipe[STDOUT_FILENO], &signal, sizeof(signal)) == sizeof(signal))
     {
-        bool keyReleaseExpected = false;
-
         XEvent event;
+        bool keyReleaseExpected = false;
+        const QString superLeft = QString::fromUtf8(XKeysymToString(XK_Super_L));
+        const QString superRight = QString::fromUtf8(XKeysymToString(XK_Super_R));
+        QSet<unsigned int> allModifiers;
+        unsigned int allShifts = ShiftMask | ControlMask | AltMask | MetaMask | Level3Mask | Level5Mask;
+        unsigned int ignoreMask = 0xff ^ allShifts;
+        for (unsigned int i = 0; i < 0x100; ++i)
+        {
+            unsigned int ignoreLocks = i & ignoreMask;
+            allModifiers.insert(ignoreLocks);
+        }
+
         while (mX11EventLoopActive)
         {
             XPeekEvent(mDisplay, &event);
@@ -1441,7 +1247,7 @@ void Core::run()
                         event.xkey.state &= ~allShifts; // Modifier keys must not use shift states.
                     }
 
-                    X11Shortcut shortcutKey = qMakePair(static_cast<KeyCode>(event.xkey.keycode), event.xkey.state & allShifts);
+                    X11Shortcut shortcutKey = std::make_pair(static_cast<KeyCode>(event.xkey.keycode), event.xkey.state & allShifts);
                     ShortcutByX11::const_iterator shortcutIt = mShortcutByX11.constFind(shortcutKey);
                     if (shortcutIt == mShortcutByX11.constEnd())
                     {
@@ -1451,7 +1257,7 @@ void Core::run()
 
                     if (event.type == KeyPress)
                     {
-                        if ((shortcut == metaLeft) || (shortcut == metaRight))
+                        if ((shortcut == superLeft) || (shortcut == superRight))
                         {
                             keyReleaseExpected = true;
                             continue;
@@ -1511,8 +1317,7 @@ void Core::run()
                         }
                         break;
 
-                        default:
-                            ;
+                        case MULTIPLE_ACTIONS_BEHAVIOUR__COUNT: break; // just a counter
                         }
                     }
                 }
@@ -1789,19 +1594,13 @@ void Core::run()
                             mDataMutex.unlock();
                         }
                         break;
+                        } // end of switch-case
 
-                        }
                     }
                 }
             }
         }
     }
-
-    lockX11Error();
-    XUngrabKey(mDisplay, AnyKey, AnyModifier, rootWindow);
-    XSetErrorHandler(oldx11ErrorHandler);
-    XCloseDisplay(mDisplay);
-    checkX11Error(0);
 }
 
 void Core::serviceDisappeared(const QString &sender)
@@ -2213,14 +2012,14 @@ QString Core::checkShortcut(const QString &shortcut, X11Shortcut &X11shortcut)
     return usedShortcut;
 }
 
-QPair<QString, qulonglong> Core::addOrRegisterClientAction(const QString &shortcut, const QDBusObjectPath &path, const QString &description, const QString &sender)
+std::pair<QString, qulonglong> Core::addOrRegisterClientAction(const QString &shortcut, const QDBusObjectPath &path, const QString &description, const QString &sender)
 {
     X11Shortcut X11shortcut;
 
     QString newShortcut = checkShortcut(shortcut, X11shortcut);
 //    if (newShortcut.isEmpty())
 //    {
-//        return qMakePair(QString(), 0ull);
+//        return std::make_pair(QString(), 0ull);
 //    }
 
     IdByClientPath::iterator idByNativeClient = mIdByClientPath.find(path);
@@ -2241,7 +2040,7 @@ QPair<QString, qulonglong> Core::addOrRegisterClientAction(const QString &shortc
 
         dynamic_cast<ClientAction*>(shortcutAndAction.second)->appeared(QDBusConnection::sessionBus(), sender);
 
-        return qMakePair(newShortcut, id);
+        return std::make_pair(newShortcut, id);
     }
 
     qulonglong id = ++mLastId;
@@ -2254,14 +2053,14 @@ QPair<QString, qulonglong> Core::addOrRegisterClientAction(const QString &shortc
 
     mIdByClientPath[path] = id;
     ClientAction *clientAction = sender.isEmpty() ? new ClientAction(this, path, description) : new ClientAction(this, QDBusConnection::sessionBus(), sender, path, description);
-    mShortcutAndActionById[id] = qMakePair<QString, BaseAction *>(newShortcut, clientAction);
+    mShortcutAndActionById[id] = std::make_pair(newShortcut, clientAction);
 
     log(LOG_INFO, "addClientAction shortcut:'%s' id:%llu", qPrintable(newShortcut), id);
 
-    return qMakePair(newShortcut, id);
+    return std::make_pair(newShortcut, id);
 }
 
-void Core::addClientAction(QPair<QString, qulonglong> &result, const QString &shortcut, const QDBusObjectPath &path, const QString &description, const QString &sender)
+void Core::addClientAction(std::pair<QString, qulonglong> &result, const QString &shortcut, const QDBusObjectPath &path, const QString &description, const QString &sender)
 {
     log(LOG_INFO, "addClientAction shortcut:'%s' path:'%s' description:'%s' sender:'%s'", qPrintable(shortcut), qPrintable(path.path()), qPrintable(description), qPrintable(sender));
 
@@ -2271,7 +2070,7 @@ void Core::addClientAction(QPair<QString, qulonglong> &result, const QString &sh
     if (senderByClientPath != mSenderByClientPath.end())
     {
         log(LOG_WARNING, "Action already registered for '%s' (sender: %s)", qPrintable(path.path()), qPrintable(sender));
-        result = qMakePair(QString(), 0ull);
+        result = std::make_pair(QString(), 0ull);
         return;
     }
 
@@ -2313,7 +2112,7 @@ qulonglong Core::registerClientAction(const QString &shortcut, const QDBusObject
     return addOrRegisterClientAction(shortcut, path, description, QString()).second;
 }
 
-void Core::addMethodAction(QPair<QString, qulonglong> &result, const QString &shortcut, const QString &service, const QDBusObjectPath &path, const QString &interface, const QString &method, const QString &description)
+void Core::addMethodAction(std::pair<QString, qulonglong> &result, const QString &shortcut, const QString &service, const QDBusObjectPath &path, const QString &interface, const QString &method, const QString &description)
 {
     log(LOG_INFO, "addMethodAction shortcut:'%s' service:'%s' path:'%s' interface:'%s' method:'%s' description:'%s'", qPrintable(shortcut), qPrintable(service), qPrintable(path.path()), qPrintable(interface), qPrintable(method), qPrintable(description));
 
@@ -2323,14 +2122,14 @@ void Core::addMethodAction(QPair<QString, qulonglong> &result, const QString &sh
     QString newShortcut = checkShortcut(shortcut, X11shortcut);
     if (newShortcut.isEmpty())
     {
-        result = qMakePair(QString(), 0ull);
+        result = std::make_pair(QString(), 0ull);
         return;
     }
 
     newShortcut = grabOrReuseKey(X11shortcut, newShortcut);
     if (newShortcut.isEmpty())
     {
-        result = qMakePair(QString(), 0ull);
+        result = std::make_pair(QString(), 0ull);
         return;
     }
 
@@ -2338,23 +2137,23 @@ void Core::addMethodAction(QPair<QString, qulonglong> &result, const QString &sh
     qulonglong id = ++mLastId;
 
     mIdsByShortcut[newShortcut].insert(id);
-    mShortcutAndActionById[id] = qMakePair<QString, BaseAction *>(newShortcut, new MethodAction(this, QDBusConnection::sessionBus(), service, path, interface, method, description));
+    mShortcutAndActionById[id] = std::make_pair(newShortcut, new MethodAction(this, QDBusConnection::sessionBus(), service, path, interface, method, description));
 
     log(LOG_INFO, "addMethodAction shortcut:'%s' id:%llu", qPrintable(newShortcut), id);
 
     saveConfig();
 
-    result = qMakePair(newShortcut, id);
+    result = std::make_pair(newShortcut, id);
 }
 
 qulonglong Core::registerMethodAction(const QString &shortcut, const QString &service, const QDBusObjectPath &path, const QString &interface, const QString &method, const QString &description)
 {
-    QPair<QString, qulonglong> result;
+    std::pair<QString, qulonglong> result;
     addMethodAction(result, shortcut, service, path, interface, method, description);
     return result.second;
 }
 
-void Core::addCommandAction(QPair<QString, qulonglong> &result, const QString &shortcut, const QString &command, const QStringList &arguments, const QString &description)
+void Core::addCommandAction(std::pair<QString, qulonglong> &result, const QString &shortcut, const QString &command, const QStringList &arguments, const QString &description)
 {
     log(LOG_INFO, "addCommandAction shortcut:'%s' command:'%s' arguments:'%s' description:'%s'", qPrintable(shortcut), qPrintable(command), qPrintable(joinToString(arguments, QString(), QLatin1String("' '"), QString())), qPrintable(description));
 
@@ -2364,14 +2163,14 @@ void Core::addCommandAction(QPair<QString, qulonglong> &result, const QString &s
     QString newShortcut = checkShortcut(shortcut, X11shortcut);
     if (newShortcut.isEmpty())
     {
-        result = qMakePair(QString(), 0ull);
+        result = std::make_pair(QString(), 0ull);
         return;
     }
 
     newShortcut = grabOrReuseKey(X11shortcut, newShortcut);
     if (newShortcut.isEmpty())
     {
-        result = qMakePair(QString(), 0ull);
+        result = std::make_pair(QString(), 0ull);
         return;
     }
 
@@ -2379,18 +2178,18 @@ void Core::addCommandAction(QPair<QString, qulonglong> &result, const QString &s
     qulonglong id = ++mLastId;
 
     mIdsByShortcut[newShortcut].insert(id);
-    mShortcutAndActionById[id] = qMakePair<QString, BaseAction *>(newShortcut, new CommandAction(this, command, arguments, description));
+    mShortcutAndActionById[id] = std::make_pair(newShortcut, new CommandAction(this, command, arguments, description));
 
     log(LOG_INFO, "addCommandAction shortcut:'%s' id:%llu", qPrintable(newShortcut), id);
 
     saveConfig();
 
-    result = qMakePair(newShortcut, id);
+    result = std::make_pair(newShortcut, id);
 }
 
 qulonglong Core::registerCommandAction(const QString &shortcut, const QString &command, const QStringList &arguments, const QString &description)
 {
-    QPair<QString, qulonglong> result;
+    std::pair<QString, qulonglong> result;
     addCommandAction(result, shortcut, command, arguments, description);
     return result.second;
 }
@@ -2717,13 +2516,13 @@ void Core::getClientActionSender(QString &sender, qulonglong id)
     }
 }
 
-void Core::changeClientActionShortcut(QPair<QString, qulonglong> &result, const QDBusObjectPath &path, const QString &shortcut, const QString &sender)
+void Core::changeClientActionShortcut(std::pair<QString, qulonglong> &result, const QDBusObjectPath &path, const QString &shortcut, const QString &sender)
 {
     log(LOG_INFO, "changeClientActionShortcut path:'%s' shortcut:'%s' sender:'%s'", qPrintable(path.path()), qPrintable(shortcut), qPrintable(sender));
 
     if (shortcut.isEmpty())
     {
-        result = qMakePair(QString(), 0ull);
+        result = std::make_pair(QString(), 0ull);
         return;
     }
 
@@ -2733,7 +2532,7 @@ void Core::changeClientActionShortcut(QPair<QString, qulonglong> &result, const 
     if (idByNativeClient == mIdByClientPath.end())
     {
         log(LOG_WARNING, "No action registered for '%s' (sender: %s)", qPrintable(path.path()), qPrintable(sender));
-        result = qMakePair(QString(), 0ull);
+        result = std::make_pair(QString(), 0ull);
         return;
     }
 
@@ -2741,14 +2540,14 @@ void Core::changeClientActionShortcut(QPair<QString, qulonglong> &result, const 
     if (senderByClientPath == mSenderByClientPath.end())
     {
         log(LOG_WARNING, "No action activated for '%s' (sender: %s)", qPrintable(path.path()), qPrintable(sender));
-        result = qMakePair(QString(), 0ull);
+        result = std::make_pair(QString(), 0ull);
         return;
     }
 
     if (senderByClientPath.value() != sender)
     {
         log(LOG_WARNING, "Sender mismatch: caller: %s owner: %s", qPrintable(senderByClientPath.value()), qPrintable(sender));
-        result = qMakePair(QString(), 0ull);
+        result = std::make_pair(QString(), 0ull);
         return;
     }
 
@@ -2758,7 +2557,7 @@ void Core::changeClientActionShortcut(QPair<QString, qulonglong> &result, const 
     QString newShortcut = checkShortcut(shortcut, X11shortcut);
     if (newShortcut.isEmpty())
     {
-        result = qMakePair(QString(), id);
+        result = std::make_pair(QString(), id);
         return;
     }
 
@@ -2775,7 +2574,7 @@ void Core::changeClientActionShortcut(QPair<QString, qulonglong> &result, const 
             newShortcut = grabOrReuseKey(X11shortcut, newShortcut);
             if (newShortcut.isEmpty())
             {
-                result = qMakePair(QString(), id);
+                result = std::make_pair(QString(), id);
                 return;
             }
 
@@ -2819,7 +2618,7 @@ void Core::changeClientActionShortcut(QPair<QString, qulonglong> &result, const 
 
     mDaemonAdaptor->emit_actionShortcutChanged(id);
 
-    result = qMakePair(newShortcut, id);
+    result = std::make_pair(newShortcut, id);
 }
 
 void Core::changeShortcut(QString &result, const qulonglong &id, const QString &shortcut)
@@ -3262,7 +3061,7 @@ GeneralActionInfo Core::actionInfo(const ShortcutAndAction &shortcutAndAction) c
     return result;
 }
 
-void Core::getActionById(QPair<bool, GeneralActionInfo> &result, const qulonglong &id) const
+void Core::getActionById(std::pair<bool, GeneralActionInfo> &result, const qulonglong &id) const
 {
     log(LOG_INFO, "getActionById id:%llu", id);
 
@@ -3272,11 +3071,11 @@ void Core::getActionById(QPair<bool, GeneralActionInfo> &result, const qulonglon
     if (shortcutAndActionById == mShortcutAndActionById.end())
     {
         log(LOG_WARNING, "No action registered with id #%llu", id);
-        result = qMakePair(false, GeneralActionInfo());
+        result = std::make_pair(false, GeneralActionInfo());
         return;
     }
 
-    result = qMakePair(true, actionInfo(shortcutAndActionById.value()));
+    result = std::make_pair(true, actionInfo(shortcutAndActionById.value()));
 }
 
 void Core::getAllActions(QMap<qulonglong, GeneralActionInfo> &result) const
@@ -3292,7 +3091,7 @@ void Core::getAllActions(QMap<qulonglong, GeneralActionInfo> &result) const
     }
 }
 
-void Core::getClientActionInfoById(QPair<bool, ClientActionInfo> &result, const qulonglong &id) const
+void Core::getClientActionInfoById(std::pair<bool, ClientActionInfo> &result, const qulonglong &id) const
 {
     log(LOG_INFO, "getClientActionInfoById id:%llu", id);
 
@@ -3304,7 +3103,7 @@ void Core::getClientActionInfoById(QPair<bool, ClientActionInfo> &result, const 
     if (shortcutAndActionById == mShortcutAndActionById.end())
     {
         log(LOG_WARNING, "No action registered with id #%llu", id);
-        result = qMakePair(false, info);
+        result = std::make_pair(false, info);
         return;
     }
 
@@ -3313,7 +3112,7 @@ void Core::getClientActionInfoById(QPair<bool, ClientActionInfo> &result, const 
     if (strcmp(action->type(), ClientAction::id()))
     {
         log(LOG_WARNING, "getClientActionInfoById attempts to request action of type '%s'", action->type());
-        result = qMakePair(false, info);
+        result = std::make_pair(false, info);
         return;
     }
 
@@ -3324,10 +3123,10 @@ void Core::getClientActionInfoById(QPair<bool, ClientActionInfo> &result, const 
     const ClientAction *clientAction = dynamic_cast<const ClientAction *>(action);
     info.path = clientAction->path();
 
-    result = qMakePair(true, info);
+    result = std::make_pair(true, info);
 }
 
-void Core::getMethodActionInfoById(QPair<bool, MethodActionInfo> &result, const qulonglong &id) const
+void Core::getMethodActionInfoById(std::pair<bool, MethodActionInfo> &result, const qulonglong &id) const
 {
     log(LOG_INFO, "getMethodActionInfoById id:%llu", id);
 
@@ -3339,7 +3138,7 @@ void Core::getMethodActionInfoById(QPair<bool, MethodActionInfo> &result, const 
     if (shortcutAndActionById == mShortcutAndActionById.end())
     {
         log(LOG_WARNING, "No action registered with id #%llu", id);
-        result = qMakePair(false, info);
+        result = std::make_pair(false, info);
         return;
     }
 
@@ -3348,7 +3147,7 @@ void Core::getMethodActionInfoById(QPair<bool, MethodActionInfo> &result, const 
     if (strcmp(action->type(), MethodAction::id()))
     {
         log(LOG_WARNING, "getMethodActionInfoById attempts to request action of type '%s'", action->type());
-        result = qMakePair(false, info);
+        result = std::make_pair(false, info);
         return;
     }
 
@@ -3362,10 +3161,10 @@ void Core::getMethodActionInfoById(QPair<bool, MethodActionInfo> &result, const 
     info.interface = methodAction->interface();
     info.method = methodAction->method();
 
-    result = qMakePair(true, info);
+    result = std::make_pair(true, info);
 }
 
-void Core::getCommandActionInfoById(QPair<bool, CommandActionInfo> &result, const qulonglong &id) const
+void Core::getCommandActionInfoById(std::pair<bool, CommandActionInfo> &result, const qulonglong &id) const
 {
     log(LOG_INFO, "getCommandActionInfoById id:%llu", id);
 
@@ -3377,7 +3176,7 @@ void Core::getCommandActionInfoById(QPair<bool, CommandActionInfo> &result, cons
     if (shortcutAndActionById == mShortcutAndActionById.end())
     {
         log(LOG_WARNING, "No action registered with id #%llu", id);
-        result = qMakePair(false, info);
+        result = std::make_pair(false, info);
         return;
     }
 
@@ -3386,7 +3185,7 @@ void Core::getCommandActionInfoById(QPair<bool, CommandActionInfo> &result, cons
     if (strcmp(action->type(), CommandAction::id()))
     {
         log(LOG_WARNING, "getCommandActionInfoById attempts to request action of type '%s'", action->type());
-        result = qMakePair(false, info);
+        result = std::make_pair(false, info);
         return;
     }
 
@@ -3398,7 +3197,7 @@ void Core::getCommandActionInfoById(QPair<bool, CommandActionInfo> &result, cons
     info.command = commandAction->command();
     info.arguments = commandAction->args();
 
-    result = qMakePair(true, info);
+    result = std::make_pair(true, info);
 }
 
 void Core::grabShortcut(const uint &timeout, QString &/*shortcut*/, bool &failed, bool &cancelled, bool &timedout, const QDBusMessage &message)
