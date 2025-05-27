@@ -116,74 +116,97 @@
         <translation>键盘快捷键配置</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="55"/>
+        <location filename="../main_window.ui" line="27"/>
+        <source>Search</source>
+        <translation>搜索</translation>
+    </message>
+    <message>
+        <location filename="../main_window.ui" line="72"/>
         <source>Add ...</source>
         <translation>新增...</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="65"/>
+        <location filename="../main_window.ui" line="82"/>
         <source>Remove</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="75"/>
+        <location filename="../main_window.ui" line="92"/>
         <source>Modify ...</source>
         <translation>更改...</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="92"/>
+        <location filename="../main_window.ui" line="109"/>
         <source>Swap</source>
         <translation>交换</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="118"/>
+        <location filename="../main_window.ui" line="135"/>
         <source>Multiple actions behaviour:</source>
         <translation>动作冲突时优先执行:</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="126"/>
+        <location filename="../main_window.ui" line="143"/>
         <source>First</source>
         <comment>globalkeys/config/multipleActions</comment>
-        <translation type="unfinished">第一个</translation>
+        <translation>第一个</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="131"/>
+        <location filename="../main_window.ui" line="148"/>
         <source>Last</source>
         <comment>globalkeys/config/multipleActions</comment>
-        <translation type="unfinished">最后一个</translation>
+        <translation>最后一个</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="136"/>
+        <location filename="../main_window.ui" line="153"/>
         <source>None</source>
         <comment>globalkeys/config/multipleActions</comment>
-        <translation type="unfinished">无</translation>
+        <translation>无</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="141"/>
+        <location filename="../main_window.ui" line="158"/>
         <source>All</source>
         <comment>globalkeys/config/multipleActions</comment>
-        <translation type="unfinished">所有</translation>
+        <translation>全部</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="166"/>
+        <location filename="../main_window.ui" line="183"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>默认</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="186"/>
+        <location filename="../main_window.ui" line="207"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../main_window.cpp" line="187"/>
+        <location filename="../main_window.cpp" line="191"/>
         <source>Restore Default</source>
-        <translation type="unfinished"></translation>
+        <translation>恢复默认</translation>
     </message>
     <message>
-        <location filename="../main_window.cpp" line="188"/>
+        <location filename="../main_window.cpp" line="192"/>
         <source>Your defined shortcuts will be removed.
 Do you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>您定义的快捷键将会被删除。
+您要继续吗?</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../main.cpp" line="51"/>
+        <source>Platform Unsupported</source>
+        <translation>平台不支持</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="52"/>
+        <source>LXQt globalkeys are currently unsupported under Wayland.
+
+Global shortcuts can be configured in the settings of the compositor instead.</source>
+        <translation>LXQt 全局快捷键暂不支持 Wayland 平台。
+
+全局快捷键可以在混成器的设置中配置。</translation>
     </message>
 </context>
 </TS>

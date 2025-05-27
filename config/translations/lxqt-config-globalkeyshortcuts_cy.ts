@@ -115,73 +115,93 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="55"/>
+        <location filename="../main_window.ui" line="27"/>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../main_window.ui" line="72"/>
         <source>Add ...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="65"/>
+        <location filename="../main_window.ui" line="82"/>
         <source>Remove</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="75"/>
+        <location filename="../main_window.ui" line="92"/>
         <source>Modify ...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="92"/>
+        <location filename="../main_window.ui" line="109"/>
         <source>Swap</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="118"/>
+        <location filename="../main_window.ui" line="135"/>
         <source>Multiple actions behaviour:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="126"/>
+        <location filename="../main_window.ui" line="143"/>
         <source>First</source>
         <comment>globalkeys/config/multipleActions</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="131"/>
+        <location filename="../main_window.ui" line="148"/>
         <source>Last</source>
         <comment>globalkeys/config/multipleActions</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="136"/>
+        <location filename="../main_window.ui" line="153"/>
         <source>None</source>
         <comment>globalkeys/config/multipleActions</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="141"/>
+        <location filename="../main_window.ui" line="158"/>
         <source>All</source>
         <comment>globalkeys/config/multipleActions</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="166"/>
+        <location filename="../main_window.ui" line="183"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="186"/>
+        <location filename="../main_window.ui" line="207"/>
         <source>Close</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../main_window.cpp" line="187"/>
+        <location filename="../main_window.cpp" line="191"/>
         <source>Restore Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main_window.cpp" line="188"/>
+        <location filename="../main_window.cpp" line="192"/>
         <source>Your defined shortcuts will be removed.
 Do you want to proceed?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../main.cpp" line="51"/>
+        <source>Platform Unsupported</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="52"/>
+        <source>LXQt globalkeys are currently unsupported under Wayland.
+
+Global shortcuts can be configured in the settings of the compositor instead.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

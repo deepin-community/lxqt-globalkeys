@@ -1,3 +1,46 @@
+lxqt-globalkeys-2.1.0 / 2024-11-05
+===================================
+ * Show "unsupported" message under wayland.
+ * Added "X-LXQt-X11-Only=true" to the desktop file.
+ * Added "X11" to the Comment of the desktop file.
+ * Added icons to dialog buttons.
+
+lxqt-globalkeys-2.0.0 / 2024-04-17
+===================================
+ * Ported to Qt6.
+
+lxqt-globalkeys-1.4.0 / 2023-11-05
+===================================
+ * Removed KWindowSystem as a direct dependency (`liblxqt` already brings KWindowSystem in as an INTERFACE_LINK dependency).
+ * Added theme icon to the main window.
+
+lxqt-globalkeys-1.3.0 / 2023-04-15
+===================================
+ * Updated translations and bumped the version.
+
+lxqt-globalkeys-1.2.0 / 2022-11-05
+===================================
+ * Updated translations and bumped the version.
+
+lxqt-globalkeys-1.1.0 / 2022-04-15
+===================================
+ * Updated translations.
+
+lxqt-globalkeys-1.0.1 / 2022-01-07
+===================================
+ * Don't require Xlib to behave synchronously.
+
+lxqt-globalkeys-1.0.0 / 2021-11-04
+===================================
+ * Updated AUTHORS.
+ * Bumped minimum required Qt version to 5.15.
+ * Added shortcut filtering.
+ * Code cleanup.
+
+lxqt-globalkeys-0.17.0 / 2021-04-15
+===================================
+  * Completely moved to Qt5 signal/slot syntax.
+
 lxqt-globalkeys-0.16.0 / 2020-11-01
 ===================================
   * Added shortcut to configure display.

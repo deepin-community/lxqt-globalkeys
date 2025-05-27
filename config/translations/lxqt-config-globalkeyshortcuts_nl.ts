@@ -16,12 +16,12 @@
     <message>
         <location filename="../default_model.cpp" line="53"/>
         <source>Client</source>
-        <translation>Cliënt</translation>
+        <translation>Client</translation>
     </message>
     <message>
         <location filename="../default_model.cpp" line="143"/>
         <source>Id</source>
-        <translation>Id</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <location filename="../default_model.cpp" line="146"/>
@@ -41,7 +41,7 @@
     <message>
         <location filename="../default_model.cpp" line="155"/>
         <source>Info</source>
-        <translation>Info</translation>
+        <translation>Informatie</translation>
     </message>
 </context>
 <context>
@@ -49,7 +49,7 @@
     <message>
         <location filename="../edit_action_dialog.ui" line="14"/>
         <source>Edit Action</source>
-        <translation>Actie bewerken</translation>
+        <translation>Actie aanpassen</translation>
     </message>
     <message>
         <location filename="../edit_action_dialog.ui" line="31"/>
@@ -64,12 +64,12 @@
     <message>
         <location filename="../edit_action_dialog.ui" line="87"/>
         <source>&amp;Enabled</source>
-        <translation>&amp;Ingeschakeld</translation>
+        <translation>Ing&amp;eschakeld</translation>
     </message>
     <message>
         <location filename="../edit_action_dialog.ui" line="102"/>
         <source>&amp;Command</source>
-        <translation>&amp;Opdracht</translation>
+        <translation>Opdra&amp;cht</translation>
     </message>
     <message>
         <location filename="../edit_action_dialog.ui" line="109"/>
@@ -89,17 +89,17 @@
     <message>
         <location filename="../edit_action_dialog.ui" line="206"/>
         <source>S&amp;ervice:</source>
-        <translation>&amp;Dienst:</translation>
+        <translation>Di&amp;enst:</translation>
     </message>
     <message>
         <location filename="../edit_action_dialog.ui" line="219"/>
         <source>&amp;Path:</source>
-        <translation>&amp;Pad:</translation>
+        <translation>&amp;Locatie:</translation>
     </message>
     <message>
         <location filename="../edit_action_dialog.ui" line="232"/>
         <source>&amp;Interface:</source>
-        <translation>&amp;Gebruikersschil:</translation>
+        <translation>Vormgev&amp;ing:</translation>
     </message>
     <message>
         <location filename="../edit_action_dialog.ui" line="245"/>
@@ -115,75 +115,97 @@
         <translation>Globale actiebeheerder</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="55"/>
-        <source>Add ...</source>
-        <translation>Toevoegen ...</translation>
+        <location filename="../main_window.ui" line="27"/>
+        <source>Search</source>
+        <translation>Zoeken</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="65"/>
+        <location filename="../main_window.ui" line="72"/>
+        <source>Add ...</source>
+        <translation>Toevoegen…</translation>
+    </message>
+    <message>
+        <location filename="../main_window.ui" line="82"/>
         <source>Remove</source>
         <translation>Verwijderen</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="75"/>
+        <location filename="../main_window.ui" line="92"/>
         <source>Modify ...</source>
-        <translation>Wijzigen ...</translation>
+        <translation>Aanpassen…</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="92"/>
+        <location filename="../main_window.ui" line="109"/>
         <source>Swap</source>
         <translation>Omwisselen</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="118"/>
+        <location filename="../main_window.ui" line="135"/>
         <source>Multiple actions behaviour:</source>
         <translation>Gedrag bij meerdere acties:</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="126"/>
+        <location filename="../main_window.ui" line="143"/>
         <source>First</source>
         <comment>globalkeys/config/multipleActions</comment>
-        <translation type="unfinished">Eerste</translation>
+        <translation>Eerste</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="131"/>
+        <location filename="../main_window.ui" line="148"/>
         <source>Last</source>
         <comment>globalkeys/config/multipleActions</comment>
-        <translation type="unfinished">Laatste</translation>
+        <translation>Laatste</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="136"/>
+        <location filename="../main_window.ui" line="153"/>
         <source>None</source>
         <comment>globalkeys/config/multipleActions</comment>
-        <translation type="unfinished">Geen</translation>
+        <translation>Geen</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="141"/>
+        <location filename="../main_window.ui" line="158"/>
         <source>All</source>
         <comment>globalkeys/config/multipleActions</comment>
-        <translation type="unfinished">Alle</translation>
+        <translation>Alle</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="166"/>
+        <location filename="../main_window.ui" line="183"/>
         <source>Default</source>
         <translation>Standaard</translation>
     </message>
     <message>
-        <location filename="../main_window.ui" line="186"/>
+        <location filename="../main_window.ui" line="207"/>
         <source>Close</source>
         <translation>Sluiten</translation>
     </message>
     <message>
-        <location filename="../main_window.cpp" line="187"/>
+        <location filename="../main_window.cpp" line="191"/>
         <source>Restore Default</source>
-        <translation>Herstel standaard</translation>
+        <translation>Standaardwaarden</translation>
     </message>
     <message>
-        <location filename="../main_window.cpp" line="188"/>
+        <location filename="../main_window.cpp" line="192"/>
         <source>Your defined shortcuts will be removed.
 Do you want to proceed?</source>
-        <translation>Je ingestelde snelkoppelingen worden verwijderd.
-Wil je verder gaan?</translation>
+        <translation>Uw ingestelde sneltoetsen worden verwijderd.
+Weet u zeker dat u wilt doorgaan?</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../main.cpp" line="51"/>
+        <source>Platform Unsupported</source>
+        <translation>Geen ondersteund platform</translation>
+    </message>
+    <message>
+        <location filename="../main.cpp" line="52"/>
+        <source>LXQt globalkeys are currently unsupported under Wayland.
+
+Global shortcuts can be configured in the settings of the compositor instead.</source>
+        <translation>Globale sneltoetsen op Wayland worden momenteel niet door LXQt ondersteund.
+
+Stel deze in in de instellingen van de vensterbeheerder.</translation>
     </message>
 </context>
 </TS>

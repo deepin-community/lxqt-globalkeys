@@ -69,16 +69,20 @@ MainWindow::MainWindow(QWidget *parent)
     mSortFilterProxyModel = new QSortFilterProxyModel(this);
 
     mSortFilterProxyModel->setSourceModel(mDefaultModel);
+    mSortFilterProxyModel->setFilterKeyColumn(-1);
+    mSortFilterProxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     actions_TV->setModel(mSortFilterProxyModel);
 
     mSelectionModel = new QItemSelectionModel(actions_TV->model());
     actions_TV->setSelectionModel(mSelectionModel);
 
-    connect(mSelectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)), SLOT(selectionChanged(QItemSelection, QItemSelection)));
+    connect(filter_LE, &QLineEdit::textChanged, mSortFilterProxyModel, &QSortFilterProxyModel::setFilterFixedString);
 
-    connect(mActions, SIGNAL(daemonDisappeared()), SLOT(daemonDisappeared()));
-    connect(mActions, SIGNAL(daemonAppeared()), SLOT(daemonAppeared()));
-    connect(mActions, SIGNAL(multipleActionsBehaviourChanged(MultipleActionsBehaviour)), SLOT(multipleActionsBehaviourChanged(MultipleActionsBehaviour)));
+    connect(mSelectionModel, &QItemSelectionModel::selectionChanged, this, &MainWindow::selectionChanged);
+
+    connect(mActions, &Actions::daemonDisappeared,               this, &MainWindow::daemonDisappeared);
+    connect(mActions, &Actions::daemonAppeared,                  this, &MainWindow::daemonAppeared);
+    connect(mActions, &Actions::multipleActionsBehaviourChanged, this, &MainWindow::multipleActionsBehaviourChanged);
 
     // restore/remember win size
     // FIXME: Change the code structure so that the config file can be obtained from one place.
@@ -151,8 +155,8 @@ void MainWindow::selectionChanged(const QItemSelection &/*selected*/, const QIte
     bool enableSwap = (rows.length() == 2);
     if (enableSwap)
     {
-        QPair<bool, GeneralActionInfo> info0 = mActions->actionById(mDefaultModel->id(mSortFilterProxyModel->mapToSource(rows[0])));
-        QPair<bool, GeneralActionInfo> info1 = mActions->actionById(mDefaultModel->id(mSortFilterProxyModel->mapToSource(rows[1])));
+        std::pair<bool, GeneralActionInfo> info0 = mActions->actionById(mDefaultModel->id(mSortFilterProxyModel->mapToSource(rows[0])));
+        std::pair<bool, GeneralActionInfo> info1 = mActions->actionById(mDefaultModel->id(mSortFilterProxyModel->mapToSource(rows[1])));
         enableSwap = (info0.first && info1.first && (info0.second.shortcut == info1.second.shortcut));
     }
     swap_PB->setEnabled(enableSwap);
